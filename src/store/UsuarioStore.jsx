@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { BuscarUsuarios, EditarUsuarios, EliminarPermisos, EliminarUsuarios, InsertarAsignaciones, InsertarPermisos, InsertarUsuarios, MostrarModulos, MostrarPermisos, MostrarUsuarios, MostrarUsuariosTodos, supabase } from "../index";
+import { BuscarUsuarios, DataModulosConfiguracion, EditarUsuarios, EliminarPermisos, EliminarUsuarios, InsertarAsignaciones, InsertarPermisos, InsertarUsuarios, MostrarModulos, MostrarPermisos, MostrarUsuarios, MostrarUsuariosTodos, supabase } from "../index";
 
 export const useUsuariosStore = create((set, get) => ({
   datamodulos:[],
@@ -129,7 +129,21 @@ export const useUsuariosStore = create((set, get) => ({
     mostrarpermisos:async (p)=>{
       const response = await MostrarPermisos(p);
       set({datapermisos:response})
-      return response;
+       let allDocs = [];
+    DataModulosConfiguracion.map((element) => {
+      const statePermiso = response.some((objeto) =>
+        objeto.modulos.nombre.includes(element.title)
+      );
+      if(statePermiso) {
+        allDocs.push({...element,state:true})
+      }else{
+        allDocs.push({...element,state:false})
+      }
+    });
+    DataModulosConfiguracion.splice(0,DataModulosConfiguracion.length)
+    DataModulosConfiguracion.push(...allDocs)
+
+    return response;
     },
 
      
