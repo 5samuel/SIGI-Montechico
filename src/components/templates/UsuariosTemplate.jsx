@@ -11,7 +11,7 @@ export function UsuariosTemplate({data}) {
     setAccion("Nuevo")
     setdataSelect([])
   }
-  const {setBuscador} = useUsuariosStore()
+  const {setBuscador} = useUsuariosStore();
   return (
     <Container>
       {

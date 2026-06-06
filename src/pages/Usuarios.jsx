@@ -31,12 +31,10 @@ export function Usuarios() {
   });
 
   // BUSCADOR
-  useQuery({
-
-    queryKey: ["buscar marca",buscador,],
+  useQuery({queryKey: ["buscar usuarios",{_id_empresa:dataempresa.id,buscador:buscador},],
 
     queryFn: () =>
-      buscarusuarios({ id_empresa: dataempresa?.id, descripcion: buscador, }),
+      buscarusuarios({ _id_empresa: dataempresa?.id, buscador: buscador }),
       enabled:!!dataempresa?.id && buscador !== "",
      });
 

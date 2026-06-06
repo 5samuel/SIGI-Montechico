@@ -50,7 +50,8 @@ export async function EditarUsuarios(p) {
     .update(p)
     .eq("id", p.id);
   if (error) {
-    alert("Error al editar Usuarios", error.message);
+    console.error(error)
+    alert(`Error al editar Usuarios: ${error.message}`);
   }
 
 }

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { InsertarAsignaciones, InsertarPermisos, InsertarUsuarios, MostrarModulos, MostrarPermisos, MostrarUsuarios, MostrarUsuariosTodos, supabase } from "../index";
+import { BuscarUsuarios, EditarUsuarios, EliminarPermisos, EliminarUsuarios, InsertarAsignaciones, InsertarPermisos, InsertarUsuarios, MostrarModulos, MostrarPermisos, MostrarUsuarios, MostrarUsuariosTodos, supabase } from "../index";
 
 export const useUsuariosStore = create((set, get) => ({
   datamodulos:[],
@@ -65,6 +65,7 @@ export const useUsuariosStore = create((set, get) => ({
           idauth: data.user.id,
           tipouser: p.tipouser,
           tipodoc: p.tipodoc,
+          correo: p.correo
 
         })
 
@@ -93,15 +94,25 @@ export const useUsuariosStore = create((set, get) => ({
           set(mostrarusuarios(parametros));
       },
   
-      editarusuarios: async(p)=>{
-          await Editarusuarios(p);
-          const {mostrarusuarios} = get();
-          const {parametros} = get();
-          set(mostrarusuarios(parametros));
+      editarusuarios: async(p,datacheckpermisos, idempresa)=>{
+          await EditarUsuarios(p);
+          await EliminarPermisos({id_usuario:p.id})
+          datacheckpermisos.forEach(async(item)=>{
+            if(item.check){
+            let parametrospermisos={
+              id_usuario:p.id,
+              idmodulo:item.id,
+            };
+            await InsertarPermisos(parametrospermisos);
+          }
+          });
+
+          const {mostrarusuariosTodos} = get();
+          set(mostrarusuariosTodos({_id_empresa:idempresa}));
       },
   
       buscarusuarios: async(p)=>{
-          const response = await Buscarusuarios(p);
+          const response = await BuscarUsuarios(p);
           set({datausuarios:response || []});
           return response || [];
       },

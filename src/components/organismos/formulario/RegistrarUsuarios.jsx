@@ -45,17 +45,18 @@ async function insertar(data) {
   if (accion === "Editar") {
 
     const p = {
+          id:dataSelect.id,
           nombres: data.nombres,
           nro_doc: data.nrodoc,
           telefono: data.telefono,
           direccion:data.direccion,
           tipouser: tipouser.descripcion,
           tipodoc: tipodoc.descripcion,
-          id_empresa:dataempresa.id,
+          
 
     };
    
-    await editarusuarios(p);
+    await editarusuarios(p,checkboxs,dataempresa.id);
     onClose();
 
   } else {
@@ -85,8 +86,8 @@ async function insertar(data) {
 }
   useEffect(() => {
     if (accion === "Editar") {
-      selectMarca({id:dataSelect.idmarca,descripcion:dataSelect.marca})
-      selectcategoria({id:dataSelect.id_categoria, descripcion:dataSelect.categoria})
+      setTipodoc({icono:"",descripcion:dataSelect.tipodoc})
+      setTipouser({icono:"",descripcion:dataSelect.tipouser})
     }
   }, []);
   if(isLoading){
@@ -110,10 +111,13 @@ async function insertar(data) {
           {/*formulario de nombre */}
         <form className="formulario" onSubmit={handleSubmit(insertar)}>
           <section className="seccion1">
-            <article>
+
+              {
+                accion !="Editar"?(
+                <article>
               <InputText icono={<v.icononombre />}>
-                <input
-                  className="form__field"
+                <input 
+                  className={accion ==="Editar"?"form__field disabled":"form__field"}
                   defaultValue={dataSelect.correo}
                   type="text"
                   placeholder=""
@@ -124,10 +128,12 @@ async function insertar(data) {
                 <label className="form__label">Correo</label>
                 {errors.correo?.type === "required" && <p>Campo requerido</p>}
               </InputText>
-            </article>
+            </article>):(<span className="form__field disabled">{dataSelect.correo}</span>)
+              }
+            
 
-            {/*article de contrase;a */}
-          <article>
+              {
+                accion!="Editar"?(<article>
               <InputText icono={<v.icononombre />}>
                 <input
                   className="form__field"
@@ -135,13 +141,18 @@ async function insertar(data) {
                   type="text"
                   placeholder=""
                   {...register("pass", {
-                    required: true,
+                    required: true, minLength:6
                   })}
                 />
                 <label className="form__label">pass</label>
                 {errors.pass?.type === "required" && <p>Campo requerido</p>}
+
+                {errors.pass?.type === "minLength" && <p>Debe tener al menos 6 caracteres</p>}
               </InputText>
-            </article>
+            </article>):(null)
+              }
+            {/*article de contrasena */}
+          
                   {/*article nombre */}
              <article>
               <InputText icono={<v.icononombre />}>
@@ -289,6 +300,27 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+
+  .form__field {
+    font-family: inherit;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #9b9b9b;
+    outline: 0;
+    font-size: 17px;
+    color: ${(props)=>props.theme.text};
+    padding: 7px 0;
+    background: transparent;
+    transition: border-color 0.2s;
+    &.disabled{
+      color: #696969;
+      background: #2d2d2d;
+      border-radius:8px;
+      margin-top:8px;
+      border-bottom: 1px dashed #656565;
+
+    }
+  }
 
   .sub-contenedor {
     width:100%;

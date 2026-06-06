@@ -56,12 +56,14 @@ export function TablaUsuarios({
       }
     });
   };
+
+  // columnas de la tabla 
  const columns = [
   {
     accessorKey: "nombre",
     header: "Nombres",
     cell: (info) => (
-      <div data-title="Nombres" className="ContentCell">
+      <div className="ContentCell">
         <span>{info.getValue()}</span>
       </div>
     ),
@@ -70,7 +72,7 @@ export function TablaUsuarios({
     accessorKey: "tipouser",
     header: "T.User",
     cell: (info) => (
-      <div data-title="T.User" className="ContentCell">
+      <div className="ContentCell">
         <span>{info.getValue()}</span>
       </div>
     ),
@@ -80,14 +82,14 @@ export function TablaUsuarios({
     header: "Estado",
     enableSorting: false,
     cell: (info) => (
-      <div data-title="Estado" className="ContentCell">
+      <div className="ContentCell">
         <span>{info.getValue()}</span>
       </div>
     ),
   },
   {
     id: "acciones",
-    header: "",
+    header: "Acciones",
     enableSorting: false,
     cell: (info) => (
       <div className="ContentCell">
@@ -132,7 +134,7 @@ export function TablaUsuarios({
             </tr>
           ))}
         </thead>
-       <tbody>
+   <tbody>
   {table.getRowModel().rows.length === 0 ? (
     <tr>
       <td colSpan={columns.length}>
@@ -143,7 +145,10 @@ export function TablaUsuarios({
     table.getRowModel().rows.map((item) => (
       <tr key={item.id}>
         {item.getVisibleCells().map((cell) => (
-          <td key={cell.id}>
+          <td
+            key={cell.id}
+            data-title={cell.column.columnDef.header}
+          >
             {flexRender(
               cell.column.columnDef.cell,
               cell.getContext()
@@ -164,49 +169,59 @@ export function TablaUsuarios({
 }
 const Container = styled.div`
   position: relative;
-
   margin: 5% 3%;
+  width: 100%;
+  box-sizing: border-box;
+
   @media (min-width: ${v.bpbart}) {
     margin: 2%;
   }
+
   @media (min-width: ${v.bphomer}) {
     margin: 2em auto;
-    /* max-width: ${v.bphomer}; */
   }
+
   .responsive-table {
     width: 100%;
     margin-bottom: 1.5em;
     border-spacing: 0;
+    table-layout: fixed;
+
     @media (min-width: ${v.bpbart}) {
       font-size: 0.9em;
     }
+
     @media (min-width: ${v.bpmarge}) {
       font-size: 1em;
     }
+
     thead {
       position: absolute;
-
       padding: 0;
       border: 0;
       height: 1px;
       width: 1px;
       overflow: hidden;
+
       @media (min-width: ${v.bpbart}) {
         position: relative;
         height: auto;
         width: auto;
         overflow: auto;
       }
+
       th {
         border-bottom: 2px solid rgba(115, 115, 115, 0.32);
         font-weight: normal;
         text-align: center;
         color: ${({ theme }) => theme.text};
+
         &:first-of-type {
           text-align: center;
         }
       }
     }
+
     tbody,
     tr,
     th,
@@ -215,10 +230,21 @@ const Container = styled.div`
       padding: 0;
       text-align: left;
       white-space: normal;
+      width: 100%;
+      box-sizing: border-box;
     }
+
     tr {
+      width: 100%;
+      margin-bottom: 1em;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      overflow: hidden;
+
       @media (min-width: ${v.bpbart}) {
         display: table-row;
+        width: auto;
+        background: transparent;
       }
     }
 
@@ -226,78 +252,100 @@ const Container = styled.div`
     td {
       padding: 0.5em;
       vertical-align: middle;
+
       @media (min-width: ${v.bplisa}) {
         padding: 0.75em 0.5em;
       }
+
       @media (min-width: ${v.bpbart}) {
         display: table-cell;
         padding: 0.5em;
+        width: auto;
       }
+
       @media (min-width: ${v.bpmarge}) {
         padding: 0.75em 0.5em;
       }
+
       @media (min-width: ${v.bphomer}) {
         padding: 0.75em;
       }
     }
+
     tbody {
       @media (min-width: ${v.bpbart}) {
         display: table-row-group;
       }
+
       tr {
-        margin-bottom: 1em;
-        @media (min-width: ${v.bpbart}) {
-          display: table-row;
-          border-width: 1px;
-        }
         &:last-of-type {
           margin-bottom: 0;
         }
+
         &:nth-of-type(even) {
           @media (min-width: ${v.bpbart}) {
             background-color: rgba(78, 78, 78, 0.12);
           }
         }
       }
+
       th[scope="row"] {
         @media (min-width: ${v.bplisa}) {
           border-bottom: 1px solid rgba(161, 161, 161, 0.32);
         }
+
         @media (min-width: ${v.bpbart}) {
           background-color: transparent;
           text-align: center;
           color: ${({ theme }) => theme.text};
         }
       }
-      .ContentCell {
-        text-align: right;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 50px;
 
-        border-bottom: 1px solid rgba(161, 161, 161, 0.32);
-        @media (min-width: ${v.bpbart}) {
-          justify-content: center;
-          border-bottom: none;
-        }
-      }
       td {
+        width: 100%;
         text-align: right;
+        word-break: break-word;
+        overflow-wrap: break-word;
+
         @media (min-width: ${v.bpbart}) {
-          border-bottom: 1px solid rgba(161, 161, 161, 0.32);
+          width: auto;
           text-align: center;
+          border-bottom: 1px solid rgba(161, 161, 161, 0.32);
         }
       }
+
       td[data-title]:before {
         content: attr(data-title);
         float: left;
         font-size: 0.8em;
+        font-weight: 600;
+        max-width: 45%;
+        text-align: left;
+
         @media (min-width: ${v.bplisa}) {
           font-size: 0.9em;
         }
+
         @media (min-width: ${v.bpbart}) {
           content: none;
+        }
+      }
+
+      .ContentCell {
+        width: 100%;
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 50px;
+        gap: 10px;
+
+        border-bottom: 1px solid rgba(161, 161, 161, 0.32);
+
+        @media (min-width: ${v.bpbart}) {
+          width: auto;
+          justify-content: center;
+          border-bottom: none;
         }
       }
     }
