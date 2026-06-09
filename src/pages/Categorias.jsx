@@ -1,13 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import {
+  BloqueoPagina,
   CategoriaTemplate,
   SpinnerLoader,
   useCategoriaStore,
   useEmpresaStore,
+  useUsuariosStore,
  
 } from "../index";
 
 export function Categorias() {
+  const {datapermisos} = useUsuariosStore();
+  const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Categoria de productos"))
+  if(statePermiso==false){
+    return <BloqueoPagina />
+  }
   const { mostrarcategoria, datacategoria, buscarcategoria, buscador } = useCategoriaStore();
   const { dataempresa } = useEmpresaStore();
   const { isLoading, error } = useQuery({

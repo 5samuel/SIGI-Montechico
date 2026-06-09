@@ -12,7 +12,7 @@ export function ConfiguracionTemplate() {
         {DataModulosConfiguracion.map((item, index) => {
           return (
             
-            <Link to={item.link} className={item.state?"card": "card false"} key={index}>
+            <Link to={item.state?item.link:""} className={item.state?"card": "card false"} key={index}>
 
               <Mensaje state={item.state} />
               <div className="card-content">

@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
+  BloqueoPagina,
   MarcaTemplate,
   SpinnerLoader,
   useEmpresaStore,
   useMarcaStore,
+  useUsuariosStore,
 } from "../index";
 
 export function Marca() {
+  const {datapermisos} = useUsuariosStore();
+    const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Marca de productos"))
 
   const {
     mostrarMarca,
@@ -56,6 +60,10 @@ export function Marca() {
       buscador !== "",
 
   });
+
+if(statePermiso==false){
+    return <BloqueoPagina />
+  }
 
   if (isLoading) {
     return <SpinnerLoader />;

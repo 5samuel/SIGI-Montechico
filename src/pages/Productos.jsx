@@ -6,9 +6,14 @@ import {
   useEmpresaStore,
   useMarcaStore,
   useProductosStore,
+  useUsuariosStore,
+  BloqueoPagina
 } from "../index";
 
 export function Productos() {
+  const {datapermisos} = useUsuariosStore();
+  const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Productos"))
+  
   const { mostrarMarca } = useMarcaStore();
   const { mostrarcategoria } = useCategoriaStore();
   const {
@@ -55,6 +60,10 @@ export function Productos() {
     enabled: !!dataempresa?.id,
   });
 
+  if(statePermiso==false){
+    return <BloqueoPagina />
+  }
+  
   if (isLoading) {
     return <SpinnerLoader />;
   }
