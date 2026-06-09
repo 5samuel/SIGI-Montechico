@@ -8,6 +8,7 @@ import {
   useMarcaStore,
   useUsuariosStore,
   MostrarModulos,
+  BloqueoPagina,
 } from "../index";
 
 export function Usuarios() {
@@ -18,9 +19,11 @@ export function Usuarios() {
     datausuarios,
     buscarusuarios,
     buscador,
-  } = useUsuariosStore();
+    datapermisos
 
-  const { dataempresa } = useEmpresaStore();
+  } = useUsuariosStore();
+const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Personal"))
+const { dataempresa } = useEmpresaStore();
 
   // MOSTRAR TODAS LAS MARCAS
   const { isLoading, error } = useQuery({
@@ -44,7 +47,9 @@ export function Usuarios() {
     queryFn: mostrarModulos,
   });
 
-
+if(statePermiso==false){
+    return <BloqueoPagina />
+  }
  
   
   if (isLoading) {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 export function BloqueoPagina({state}) {
-if(state) return;
+
   return (
     <Container>
       <span className="icono">💀</span>

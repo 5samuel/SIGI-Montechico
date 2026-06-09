@@ -26,8 +26,8 @@ export function RegistrarAdmin({ setState }) {
     mutationFn: async (data) => {
       const p = {
         correo: data.correo,
-        pass: data.pass,
-        tipouser: "superadmin",
+        pass: data.pass
+       
       };
 
       const dt = await insertarUsuarioAdmin(p);

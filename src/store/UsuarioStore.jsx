@@ -14,7 +14,7 @@ export const useUsuariosStore = create((set, get) => ({
     const datauser = await InsertarUsuarios({
       idauth: data.user.id,
       fecharegistro: new Date(),
-      tipouser: "Admin",
+      tipouser: "superadmin",
     });
     return datauser;
   },
@@ -84,7 +84,7 @@ export const useUsuariosStore = create((set, get) => ({
           }
         })
         await supabase.auth.signOut();
-        return data.user;
+        
       },
   
       eliminarusuarios: async(p)=>{
