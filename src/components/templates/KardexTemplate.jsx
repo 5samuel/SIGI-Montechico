@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import{Btnfiltro, Btnsave, Buscador, Header, RegistrarMarca, TablaMarca, Tabs, Title, useAuthStore, useMarcaStore} from "../../index";
+import{Btnfiltro, Btnsave, Buscador, Header, RegistrarKardex, RegistrarMarca, TablaMarca, Tabs, Title, useAuthStore, useMarcaStore} from "../../index";
 import{v} from"../../index";
 import { useState } from "react";
 
@@ -10,16 +10,23 @@ export function KardexTemplate({data}){
    const [dataSelect, setdataSelect] = useState([]);
    const [accion, setAccion]= useState("");
    const [openRegistro, setopenRegistro] = useState(false);
-   const nuevoRegistro =()=>{
-    setopenRegistro(!openRegistro);
-    setAccion("Nuevo");
-    setdataSelect([]);
+   const [tipo, setTipo] = useState("")
+
+   const nuevaentrada =()=>{
+    setopenRegistro(true);
+    setTipo("entrada")
    }
+
+    const nuevasalida =()=>{
+    setopenRegistro(true);
+    setTipo("salida");
+   }
+   
    const {setBuscador} = useMarcaStore();
     return (
         <Container>
           {
-          openRegistro && <RegistrarMarca dataSelect={dataSelect} accion={accion} 
+          openRegistro && <RegistrarKardex tipo={tipo}  dataSelect={dataSelect} accion={accion} 
           onClose={()=>setopenRegistro(!openRegistro)}/>
           }
                     
@@ -37,8 +44,8 @@ export function KardexTemplate({data}){
                   <Title>
                     Kardex
                   </Title>
-                  <Btnsave bgcolor="#52de65" titulo="+ Entrada"/>
-                  <Btnsave bgcolor="#fb6661" titulo="- Salida"/>
+                  <Btnsave bgcolor="#52de65" titulo="+ Entrada" funcion={nuevaentrada}/>
+                  <Btnsave bgcolor="#fb6661" titulo="- Salida" funcion={nuevasalida}/>
                 </ContentFiltro>
                 
         </section>
@@ -48,7 +55,7 @@ export function KardexTemplate({data}){
         </section>
     
         <section className="main">
-          <Tabs/>
+          <Tabs data={data}/>
         </section>
         </Container>
     )

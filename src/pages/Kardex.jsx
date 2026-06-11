@@ -6,60 +6,41 @@ import {
   MarcaTemplate,
   SpinnerLoader,
   useEmpresaStore,
+  useKardexStore,
   useMarcaStore,
+  useProductosStore,
   useUsuariosStore,
 } from "../index";
 
 export function Kardex() {
+  const {buscarproductos} = useProductosStore();
   const {datapermisos} = useUsuariosStore();
-    const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Marca de productos"))
+  const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Marca de productos"))
 
   const {
-    mostrarMarca,
-    datamarca,
-    buscarMarca,
+    mostrarkardex,
+    datakardex,
+    buscarkardex,
     buscador,
-  } = useMarcaStore();
+     
+  } = useKardexStore();
 
   const { dataempresa } = useEmpresaStore();
 
   // MOSTRAR TODAS LAS MARCAS
   const { isLoading, error } = useQuery({
 
-    queryKey: [
-      "mostrar marca",
-      dataempresa?.id,
-    ],
-
-    queryFn: () =>
-      mostrarMarca({
-        id_empresa: dataempresa?.id,
-      }),
-
-    enabled:
-      !!dataempresa?.id &&
-      buscador === "",
+    queryKey: [ "mostrar kardex",{_id_empresa:dataempresa?.id}],
+    queryFn: () =>mostrarkardex({_id_empresa: dataempresa?.id, }),
+    enabled:!!dataempresa?.id && buscador === "",
 
   });
 
   // BUSCADOR
-  useQuery({
-
-    queryKey: [
-      "buscar marca",
-      buscador,
-    ],
-
-    queryFn: () =>
-      buscarMarca({
-        id_empresa: dataempresa?.id,
-        descripcion: buscador,
-      }),
-
-    enabled:
-      !!dataempresa?.id &&
-      buscador !== "",
-
+ const { data: buscardata } = useQuery({
+    queryKey: ["buscar productos", {id_empresa:dataempresa?.id,descripcion:buscador} ],
+    queryFn: () => buscarproductos({_id_empresa: dataempresa?.id, buscador:buscador}),
+    enabled: !!dataempresa?.id && buscador !== undefined,
   });
 
 if(statePermiso==false){
@@ -75,6 +56,6 @@ if(statePermiso==false){
   }
 
   return (
-    <KardexTemplate data={datamarca} />
+    <KardexTemplate data={datakardex} />
   );
 }
