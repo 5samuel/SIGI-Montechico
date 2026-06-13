@@ -13,7 +13,7 @@ import {
 } from "../index";
 
 export function Kardex() {
-  const {buscarproductos} = useProductosStore();
+  const {buscarproductos, buscador:buscadorproductos, setBuscador} = useProductosStore();
   const {datapermisos} = useUsuariosStore();
   const statePermiso = datapermisos.some((objeto)=>objeto.modulos.nombre.includes("Marca de productos"))
 
@@ -38,9 +38,9 @@ export function Kardex() {
 
   // BUSCADOR
  const { data: buscardata } = useQuery({
-    queryKey: ["buscar productos", {id_empresa:dataempresa?.id,descripcion:buscador} ],
-    queryFn: () => buscarproductos({_id_empresa: dataempresa?.id, buscador:buscador}),
-    enabled: !!dataempresa?.id && buscador !== undefined,
+    queryKey: ["buscar productos", {_id_empresaid_empresa:dataempresa.id, descripcion:buscadorproductos} ],
+    queryFn: () => buscarproductos({_id_empresa: dataempresa?.id, buscador:buscadorproductos}),
+   enabled: !!dataempresa?.id,
   });
 
 if(statePermiso==false){

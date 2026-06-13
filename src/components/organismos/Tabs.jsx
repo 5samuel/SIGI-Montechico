@@ -9,7 +9,7 @@ import { TablaKardex } from "../../index";
         setactiveTab(index);
     }
     return (
-        <Container className="container" activeTab={`${activeTab}00%`} >
+        <Container className="container" $activeTab={`${activeTab}00%`}>
             <ul className="tabs">
                 <li className={activeTab==0 ? "active": ""} onClick={()=>handleClick(0)} >
                     {<v.iconopie/>}
@@ -81,11 +81,11 @@ import { TablaKardex } from "../../index";
         z-index:1;
         border-radius:15;
         transition:0.25s ease-out;
-        transform:translateY(${(props)=>props.activeTab});
+        transform: translateY(${(props) => props.$activeTab});
         box-shadow: 0px 10px 20px -3px #ff5722;
         top:0;
         @media ${Device.tablet}{
-            transform:translateX(${(props)=>props.activeTab});
+            transform: translateX(${(props) => props.$activeTab});
             height:4px;
             width:180px;
             bottom:0;

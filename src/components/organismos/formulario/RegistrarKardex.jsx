@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { v } from "../../../styles/variables";
-import { InputText, Btnsave, useMarcaStore,ConvertirCapitalize, Buscador, ListaGenerica, useProductosStore } from "../../../index";
+import { InputText, Btnsave, useMarcaStore,ConvertirCapitalize, Buscador, ListaGenerica, useProductosStore, CardProductoSelect } from "../../../index";
 import { useForm } from "react-hook-form";
 import { useEmpresaStore } from "../../../store/EmpresaStore";
 export function RegistrarKardex({ onClose, dataSelect, accion, tipo }) {
 
-  const { dataproductos}= useProductosStore()
+  const { dataproductos, setBuscador,selectproductos,productosItemSelect}= useProductosStore()
   const [stateListaProd, SetstateListaProd] = useState(false);
   const { insertarMarca, editarMarca } = useMarcaStore();
   const { dataempresa } = useEmpresaStore();
@@ -51,32 +51,59 @@ export function RegistrarKardex({ onClose, dataSelect, accion, tipo }) {
           </section>
         </div>
         <div className="contentBuscador">
-          <div>
-            <Buscador/>
+          <div onClick={()=>SetstateListaProd(!stateListaProd)}>
+            <Buscador setBuscador={setBuscador}/>
           </div>
           {
             stateListaProd && (
-              <ListaGenerica data={ dataproductos}/>
+              <ListaGenerica scroll="scroll" bottom="-250px" data={ dataproductos} 
+                setState={()=>SetstateListaProd(!stateListaProd)} 
+                funcion={selectproductos}
+                />
             )
           }
 
         </div>
+
+       
+   <CardProductoSelect text1={productosItemSelect?.descripcion}
+      text2={productosItemSelect?.stock}
+   />
+
+
         <form className="formulario" onSubmit={handleSubmit(insertar)}>
           <section>
 
-            {/*Article del formulrio*/}
+            {/*Article de la cantidad*/}
             <article>
-              <InputText icono={<v.iconomarca />}>
+              <InputText icono={<v.iconocalculadora />}>
+                <input
+                  className="form__field"
+                  defaultValue={dataSelect.descripcion}
+                  type="number"
+                  placeholder=""
+                  {...register("cantidad", {
+                    required: true,
+                  })}
+                />
+                <label className="form__label">Cantidad</label>
+                {errors.cantidad?.type === "required" && <p>Campo requerido</p>}
+              </InputText>
+            </article>
+
+            {/*article de detalle */}
+              <article>
+              <InputText icono={<v.iconotodos />}>
                 <input
                   className="form__field"
                   defaultValue={dataSelect.descripcion}
                   type="text"
                   placeholder=""
-                  {...register("nombre", {
+                  {...register("detalle", {
                     required: true,
                   })}
                 />
-                <label className="form__label">marca</label>
+                <label className="form__label">Motivo</label>
                 {errors.nombre?.type === "required" && <p>Campo requerido</p>}
               </InputText>
             </article>
@@ -115,7 +142,9 @@ const Container = styled.div`
     box-shadow: -10px 15px 30px rgba(10, 9, 9, 0.4);
     padding: 13px 36px 20px 36px;
     z-index: 100;
-
+      .contentBuscador{
+        position:relative;
+      }
     .headers {
       display: flex;
       justify-content: space-between;
