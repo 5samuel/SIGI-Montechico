@@ -24,7 +24,7 @@ export async function MostrarKardex(p){
 export async function EliminarKardex(p) {
 
     const {error} = await supabase
-    .from("Kardex")
+    .from("kardex")
     .delete()
     .eq("id", p.id);
  if (error){
@@ -36,7 +36,7 @@ export async function EliminarKardex(p) {
 export async function EditarKardex(p) {
 
     const {error} = await supabase
-    .from("Kardex")
+    .from("kardex")
     .update(p)
     .eq("id", p.id);
  if(error){
@@ -47,7 +47,7 @@ export async function EditarKardex(p) {
 
 export async function BuscarKardex(p){
     const {data}= await supabase
-    .from("Kardex")
+    .from("kardex")
     .select()
     .eq("id_empresa", p.id_empresa)
     .ilike("descripcion", "%"+p.descripcion+"%")

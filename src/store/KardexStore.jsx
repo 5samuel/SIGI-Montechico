@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import { InsertarKardex, MostrarKardex } from "../index";
 export const useKardexStore = create ((set, get)=>({
-    buscardor:"",
+    buscador:"",
     setBuscador:(p)=>{
         set({buscador: p});
     },
@@ -9,13 +9,22 @@ export const useKardexStore = create ((set, get)=>({
     kardexItemSelect:[],
     parametros:{},
 
-    mostrarkardex: async (p)=>{
-        const response = await MostrarKardex(p);
-        set({parametros:p})
-        set({datakardex:response})
-        set({kardexItemSelect:response[0]})
-        return response;
-    },
+   mostrarkardex: async (p)=>{
+
+    console.log("PARAMETROS RECIBIDOS:", p);
+
+    const response = await MostrarKardex(p);
+
+    console.log("RESPUESTA MOSTRARKARDEX:", response);
+
+    set({
+        parametros:p,
+        datakardex: response || [],
+        kardexItemSelect: response?.[0] || null
+    });
+
+    return response;
+},
 
     selectkardex: async(p)=>{
         set({kardexItemSelect :p});

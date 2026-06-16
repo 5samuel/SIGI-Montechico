@@ -11,8 +11,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import Swal from "sweetalert2";
 import { FaArrowsAltV } from "react-icons/fa";
-
+import {Device} from "../../../styles/breackpoints"
 import {
+  
   ContentAccionesTabla,
   Paginacion,
   useMarcaStore,
@@ -101,7 +102,76 @@ export function TablaKardex({
 
     {
       accessorKey: "descripcion",
-      header: "Descripcion",
+      header: "Producto",
+      cell: (info) => (
+        <div className="descripcionCell">
+          {info.getValue()}
+        </div>
+      ),
+    },
+// columna de fecha
+    {
+      accessorKey: "fecha",
+      header: "Fecha",
+      cell: (info) => (
+        <div className="descripcionCell">
+          {info.getValue()}
+        </div>
+      ),
+    },
+
+    {
+      accessorKey: "tipo",
+      header: "Tipo",
+      enableSorting: false,
+      cell: (info) => (
+        <td data-title="Tipo" className="ContentCell">
+          {
+            info.getValue()=="salida"?(<Colorcontent $color="#ed4e4e" >
+              {info.getValue()}
+            </Colorcontent>):(<Colorcontent $color="#30c85b" >
+              {info.getValue()}
+            </Colorcontent>)
+          }
+          
+        </td>
+      ),
+    },
+// columna de detalle
+    {
+      accessorKey: "detalle",
+      header: "Detalle",
+      cell: (info) => (
+        <div className="descripcionCell">
+          {info.getValue()}
+        </div>
+      ),
+    },
+// columna para usuario
+     {
+      accessorKey: "nombres",
+      header: "Usuario",
+      cell: (info) => (
+        <div className="descripcionCell">
+          {info.getValue()}
+        </div>
+      ),
+    },
+
+// columna para la cantidad
+     {
+      accessorKey: "cantidad",
+      header: "Cantidad",
+      cell: (info) => (
+        <div className="descripcionCell">
+          {info.getValue()}
+        </div>
+      ),
+    },
+
+    {
+      accessorKey: "stock",
+      header: "Stock",
       cell: (info) => (
         <div className="descripcionCell">
           {info.getValue()}
@@ -132,6 +202,7 @@ export function TablaKardex({
 
  
   // TABLA
+
   const table = useReactTable({
 
     data: data || [],
@@ -329,3 +400,18 @@ const Container = styled.div`
   }
 
 `;
+
+const Colorcontent = styled.div`
+  color:${(props)=>props.$color};
+  border-radius:8px;
+  border: 1px dashed ${(props)=>props.$color};
+  text-align: center;
+  padding:3px;
+  width:70%;
+  font-weight:700;
+  @media ${Device.tablet}{
+    width:100%;
+  }
+
+
+`
