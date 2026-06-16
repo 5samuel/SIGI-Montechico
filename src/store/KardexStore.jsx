@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import { InsertarKardex, MostrarKardex } from "../index";
+import { BuscarKardex, InsertarKardex, MostrarKardex } from "../index";
 export const useKardexStore = create ((set, get)=>({
     buscador:"",
     setBuscador:(p)=>{
@@ -52,7 +52,7 @@ export const useKardexStore = create ((set, get)=>({
     },
 
     buscarkardex: async(p)=>{
-        const response = await Buscarkardex(p);
+        const response = await BuscarKardex(p);
         set({datakardex:response || []});
         return response || [];
     }

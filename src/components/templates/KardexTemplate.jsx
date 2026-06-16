@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import{Btnfiltro, Btnsave, Buscador, Header, RegistrarKardex, RegistrarMarca, TablaMarca, Tabs, Title, useAuthStore, useMarcaStore} from "../../index";
+import{Btnfiltro, Btnsave, Buscador, Header, RegistrarKardex, RegistrarMarca, TablaMarca, Tabs, Title, useAuthStore, useKardexStore, useMarcaStore} from "../../index";
 import{v} from"../../index";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export function KardexTemplate({data}){
     setTipo("salida");
    }
    
-   const {setBuscador} = useMarcaStore();
+   const {setBuscador} = useKardexStore();
     return (
         <Container>
           {
@@ -41,7 +41,7 @@ export function KardexTemplate({data}){
            </header>
         <section className="area1">
                 <ContentFiltro>
-                  <div  className="Title">
+                  <div >
                     <Title>
                       Kardex
                     </Title>
@@ -66,23 +66,17 @@ export function KardexTemplate({data}){
 const Container = styled.div`
   min-height: 100vh;
   width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
+  background-color: ${(props) => props.theme.bgtotal};
+  color: ${({ theme }) => theme.text};
+  display: grid;
+  padding: 15px;
 
-  background-color:${(props)=>props.theme.bgtotal};
-  color:${({theme})=>theme.text};
-
-  display:grid;
-
-  padding:15px;
-  box-sizing:border-box;
-
-  grid-template-columns: minmax(0,1fr);
+  grid-template-columns: 1fr;
 
   grid-template-rows:
-    auto
-    auto
-    auto
+    100px
+    100px
+    100px
     1fr;
 
   grid-template-areas:
@@ -91,66 +85,40 @@ const Container = styled.div`
     "area2"
     "main";
 
-.header{
- grid-area:header;
- display:flex;
- align-items:center;
- min-width:0;
-}
+  .header {
+    grid-area: header;
+   /* background-color: rgba(103, 93, 241, 0.14);*/
+    display: flex;
+    align-items: center;
+  }
 
-.area1{
- grid-area:area1;
- display:flex;
- align-items:center;
- min-width:0;
-}
+  .area1 {
+    grid-area: area1;
+    /*background-color: rgba(229, 67, 26, 0.14);*/
+    display: flex;
+    align-items: center;
+  }
 
-.area2{
- grid-area:area2;
- display:flex;
- justify-content:end;
- min-width:0;
-}
+  .area2 {
+    grid-area: area2;
+   /* background-color: rgba(77, 237, 106, 0.14);*/
+    display: flex;
+    align-items: center;
+    justify-content:end;
+  }
 
-.main{
- grid-area:main;
-
- display:flex;
-
- width:100%;
- max-width:100%;
-
- min-width:0;
-
- overflow-x:auto;
-}
+  .main {
+    grid-area: main;
+   /* background-color: rgba(179, 46, 241, 0.14);*/
+    display: flex;
+    align-items: flex-start;
+  }
 `;
 
 const ContentFiltro = styled.div`
-display:flex;
-
-align-items:center;
-
+display: flex;
 flex-wrap:wrap;
-
+justify-content: end;
 width:100%;
-
-gap:12px;
-
-.Title{
- margin-right:auto;
-}
-
-@media(max-width:768px){
-
-justify-content:center;
-
-.Title{
-   width:100%;
-   text-align:center;
-   margin-right:0;
-}
-
-}
-
-`;
+gap:15px;
+`

@@ -314,91 +314,188 @@ export function TablaKardex({
 }
 
 const Container = styled.div`
-
+  position: relative;
+  margin: 5% 3%;
   width: 100%;
-  padding: 10px;
-  overflow-x: hidden;
+  box-sizing: border-box;
+
+  @media (min-width: ${v.bpbart}) {
+    margin: 2%;
+  }
+
+  @media (min-width: ${v.bphomer}) {
+    margin: 2em auto;
+  }
 
   .responsive-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
+    margin-bottom: 1.5em;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    @media (min-width: ${v.bpbart}) {
+      font-size: 0.9em;
+    }
+
+    @media (min-width: ${v.bpmarge}) {
+      font-size: 1em;
+    }
 
     thead {
-      background-color: rgba(115,115,115,0.08);
+      position: absolute;
+      padding: 0;
+      border: 0;
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+
+      @media (min-width: ${v.bpbart}) {
+        position: relative;
+        height: auto;
+        width: auto;
+        overflow: auto;
+      }
+
       th {
+        border-bottom: 2px solid rgba(115, 115, 115, 0.32);
+        font-weight: normal;
+        text-align: center;
+        color: ${({ theme }) => theme.text};
 
-        font-size: 15px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-        color: #bcbcbc;
-        padding: 18px;
-        background: rgba(255,255,255,0.03);
-      }
-
-    }
-
-  tbody {
-      tr {
-        background: rgba(255,255,255,0.02);
-        transition: 0.3s ease;
-        border-radius: 12px;
-        &:hover {
-          background: rgba(255,255,255,0.05);
-          transform: scale(1.003);
+        &:first-of-type {
+          text-align: center;
         }
-  }
+      }
+    }
 
-      td {
+    tbody,
+    tr,
+    th,
+    td {
+      display: block;
+      padding: 0;
+      text-align: left;
+      white-space: normal;
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-        padding: 18px;
-        font-size: 15px;
-        font-weight: 500;
-        letter-spacing: 0.3px;
-        color: #f5f5f5;
-        border-top: 1px solid rgba(255,255,255,0.03);
-        border-bottom: 1px solid rgba(255,255,255,0.03);
+    tr {
+      width: 100%;
+      margin-bottom: 1em;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      overflow: hidden;
 
+      @media (min-width: ${v.bpbart}) {
+        display: table-row;
+        width: auto;
+        background: transparent;
+      }
+    }
+
+    th,
+    td {
+      padding: 0.5em;
+      vertical-align: middle;
+
+      @media (min-width: ${v.bplisa}) {
+        padding: 0.75em 0.5em;
       }
 
-    }
-
-  }
-
-  .ContentCell {
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-  }
-
-  @media (max-width: 768px) {
-
-    .responsive-table {
-
-      font-size: 12px;
-
-      th,
-      td {
-
-        padding: 8px;
-
+      @media (min-width: ${v.bpbart}) {
+        display: table-cell;
+        padding: 0.5em;
+        width: auto;
       }
 
+      @media (min-width: ${v.bpmarge}) {
+        padding: 0.75em 0.5em;
+      }
+
+      @media (min-width: ${v.bphomer}) {
+        padding: 0.75em;
+      }
     }
 
-    .ContentCell {
+    tbody {
+      @media (min-width: ${v.bpbart}) {
+        display: table-row-group;
+      }
 
-      flex-direction: row;
-      gap: 5px;
+      tr {
+        &:last-of-type {
+          margin-bottom: 0;
+        }
 
+        &:nth-of-type(even) {
+          @media (min-width: ${v.bpbart}) {
+            background-color: rgba(78, 78, 78, 0.12);
+          }
+        }
+      }
+
+      th[scope="row"] {
+        @media (min-width: ${v.bplisa}) {
+          border-bottom: 1px solid rgba(161, 161, 161, 0.32);
+        }
+
+        @media (min-width: ${v.bpbart}) {
+          background-color: transparent;
+          text-align: center;
+          color: ${({ theme }) => theme.text};
+        }
+      }
+
+      td {
+        width: 100%;
+        text-align: right;
+        word-break: break-word;
+        overflow-wrap: break-word;
+
+        @media (min-width: ${v.bpbart}) {
+          width: auto;
+          text-align: center;
+          border-bottom: 1px solid rgba(161, 161, 161, 0.32);
+        }
+      }
+
+      td[data-title]:before {
+        content: attr(data-title);
+        float: left;
+        font-size: 0.8em;
+        font-weight: 600;
+        max-width: 45%;
+        text-align: left;
+
+        @media (min-width: ${v.bplisa}) {
+          font-size: 0.9em;
+        }
+
+        @media (min-width: ${v.bpbart}) {
+          content: none;
+        }
+      }
+
+      .ContentCell {
+        width: 100%;
+        text-align: right;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 50px;
+        gap: 10px;
+
+        border-bottom: 1px solid rgba(161, 161, 161, 0.32);
+
+        @media (min-width: ${v.bpbart}) {
+          width: auto;
+          justify-content: center;
+          border-bottom: none;
+        }
+      }
     }
-
   }
-
 `;
 
 const Colorcontent = styled.div`

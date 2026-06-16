@@ -36,7 +36,15 @@ export function Kardex() {
 
   });
 
-  // BUSCADOR
+  // BUSCAR DENTRO DEL KARDEX
+const { data: buscarkardexLista } = useQuery({
+    queryKey: ["buscar kardex", {_id_empresa:dataempresa.id, buscador:buscador} ],
+    queryFn: () => buscarkardex({_id_empresa:dataempresa.id, buscador:buscador}),
+   enabled: !!dataempresa?.id,
+  });
+
+
+  // BUSCADOR PRODUCTOS FORMULARIO
  const { data: buscardata } = useQuery({
     queryKey: ["buscar productos", {_id_empresaid_empresa:dataempresa.id, descripcion:buscadorproductos} ],
     queryFn: () => buscarproductos({_id_empresa: dataempresa?.id, buscador:buscadorproductos}),
