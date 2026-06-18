@@ -16,6 +16,7 @@ import {
   
   ContentAccionesTabla,
   Paginacion,
+  useKardexStore,
   useMarcaStore,
   v,
 } from "../../../index";
@@ -28,16 +29,13 @@ export function TablaKardex({
 }) {
 
   const [pagina, setPagina] = useState(1);
-
-  const { eliminarMarca } = useMarcaStore();
+  const { eliminarkardex } = useKardexStore();
 
   // =========================
   // FUNCION EDITAR
   // =========================
   const editar = (data) => {
-
     if (data.descripcion === "Generica") {
-
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -56,21 +54,14 @@ export function TablaKardex({
   // FUNCION ELIMINAR
   // =========================
   const eliminar = (p) => {
-
-    if (!p) {
-      console.error("Registro indefinido");
-      return;
-    }
-
-    if (p.descripcion === "Generica") {
-
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Este registro no se permite eliminar ya que es valor por defecto.",
-      });
-
-      return;
+    console.log("ESTADO:", p.estado);
+   if(p.estado ===0){
+    Swal.fire({
+      icon:"error",
+      title:"ooops...",
+      text:"Este registro ya fue eliminado",
+    });
+    return;
     }
 
     Swal.fire({
@@ -82,33 +73,27 @@ export function TablaKardex({
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, eliminar",
     }).then(async (result) => {
-
-      if (result.isConfirmed) {
-
-        await eliminarMarca({
-          id: p.id,
-        });
-
+        if (result.isConfirmed) {
+        await eliminarkardex({ id: p.id});
       }
 
     });
 
   };
 
-  // =========================
+ 
   // COLUMNAS
-  // =========================
+ 
   const columns = [
 
     {
-      accessorKey: "descripcion",
-      header: "Producto",
-      cell: (info) => (
-        <div className="descripcionCell">
-          {info.getValue()}
-        </div>
-      ),
+     accessorKey:"descripcion",
+     header:"Producto",
+     cell:(info)=><td data-title="producto" className="ContentCell">
+      <span style={{textDecoration:info.row.original.estado==0?"line-through":""}}>{info.getValue()}</span>
+     </td>
     },
+
 // columna de fecha
     {
       accessorKey: "fecha",
