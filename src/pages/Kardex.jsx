@@ -27,7 +27,7 @@ export function Kardex() {
 
   const { dataempresa } = useEmpresaStore();
 
-  // MOSTRAR TODAS LAS MARCAS
+  // MOSTRAR TODO LOS KARDER
   const { isLoading, error } = useQuery({
 
     queryKey: [ "mostrar kardex",{_id_empresa:dataempresa?.id}],

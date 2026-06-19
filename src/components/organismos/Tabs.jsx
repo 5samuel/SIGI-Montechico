@@ -16,13 +16,8 @@ import { TablaKardex } from "../../index";
                     Kardex
                 </li>
 
-                <li className={activeTab==1 ? "active": ""} onClick={()=>handleClick(1)} >
-                    {<v.iconopie/>}
-                    Titulo 2
-                </li>
-                <span className="glider"></span>
-
                 
+                <span className="glider"></span>     
             </ul>
             <div className="tab-content">
                 {activeTab ===0 && <TablaKardex data={data}/>}

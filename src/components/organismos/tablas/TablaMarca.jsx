@@ -109,6 +109,8 @@ export function TablaMarca({
       ),
     },
 
+    
+
     {
       id: "acciones",
       header: "",
