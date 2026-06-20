@@ -1,10 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 export function ReporteTemplate(){
     return (
       <Container>
-         <Sidebar>
+        <PageContainer>
+          <Content>
+            <Outlet/>
+          </Content>
+          <Sidebar>
             <SidebarSection>
               <SidebarTitle>Stock Actual</SidebarTitle>
               <SidebarItem to="stock-actual-por-producto">Por producto</SidebarItem>
@@ -12,9 +16,29 @@ export function ReporteTemplate(){
               <SidebarItem to="stock-bajo-minimo">Bajo Minimo</SidebarItem>
             </SidebarSection>
          </Sidebar>
+        </PageContainer>
+         
       </Container>
     )
 }
+
+const Content = styled.div`
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px;
+  flex:1;
+`;
+
+const PageContainer = styled.div`
+  display:flex;
+  f;ex-direction: column;
+  max-width:1200px;
+  justify-content:center;
+  width:100%;
+  @media(min-width:768px){
+    flex-direction: row;
+  }
+`;
 
 const Container = styled.div`
   min-height:100vh;
@@ -47,7 +71,25 @@ const SidebarTitle = styled.h3`
 `;
 
 const SidebarItem = styled(NavLink)`
-
-`
+  display:flex;
+  aling-items:center;
+  gap:10px;
+  padding:10px;
+  border-radius:12px;
+  cursor:pointer;
+  margin:5px 0;
+  text-decoration:none;
+  color: ${(props)=>props.theme.text};
+  height:60px;
+  &:hover{
+    color:${(props)=>props.theme.colorSubtitle};
+  }
+    &.active{
+      background: ${(props)=>props.theme.bg6};
+      border:2px solid ${(props)=>props.theme.bg5};
+      color: ${(props)=> props.theme.color1};
+      font-weight:600;
+    }
+  `
 
 

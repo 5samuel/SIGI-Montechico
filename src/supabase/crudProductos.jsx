@@ -1,5 +1,7 @@
 import {supabase} from"../index"
 import Swal from "sweetalert2"
+
+const tabla="productos"
 export async function InsertarProductos(p) {
     
     const {error}= await supabase.rpc("insertarproductos",p)
@@ -49,6 +51,23 @@ export async function EditarProductos(p) {
 }
 
 export async function BuscarProductos(p){
-    const {data}= await supabase.rpc("buscarproductos",p)
+    try{
+    const {data}= await supabase.rpc("buscarproductos",{
+        _id_empresa:p.id_empresa,
+        buscador:p.descripcion,
+    });
     return data;
+}catch(error){}
+}
+
+// Reportes
+export async function ReportStockProductosTodos(p){
+    const {data, error} = await supabase
+    .from(tabla)
+    .select()
+    .eq("id_empresa", p.id_empresa);
+ if(error){
+    return;
+ }
+ return data;
 }
